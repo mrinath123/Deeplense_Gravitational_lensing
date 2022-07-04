@@ -19,10 +19,6 @@ from transformers import get_cosine_schedule_with_warmup
 import warnings
 warnings.filterwarnings('ignore')
 
-OUTPUT_DIR = './'
-if not os.path.exists(OUTPUT_DIR):
-    os.makedirs(OUTPUT_DIR)
-
 class AverageMeter(object):
     #Computes and stores the average and current value
     def __init__(self):
@@ -122,7 +118,7 @@ def val_one_epoch(loader,encoder,classifier,device,criterion):
 
     return losses.avg,scores1.avg,scores2.avg
 
-def fit(encoder,classifier,device,t_loader , v_loader):
+def fit(encoder,classifier,device,t_loader , v_loader, OUTPUT_DIR):
     
     T_AUC = []
     T_LOSS = []
@@ -175,7 +171,6 @@ def plot_train_metrics(ta , tl , va , vl):
     axs[0].set_ylabel("Loss")
     axs[0].set_title("Loss Curve")
     axs[0].legend()
-    #axs[0].show()
     
     axs[1].plot(np.arange(0, len(ta)), ta, color='r', label='Train_AUC')
     axs[1].plot(np.arange(0, len(ta)), va, color='g', label='Val_AUC')
@@ -215,8 +210,7 @@ def binarize(x):
     else:
         return 0.
 
-def plot_test_metrics(PREDS , TARGET):   
-    
+def plot_test_metrics(PREDS , TARGET):     
     _, axs = plt.subplots(1, 2, figsize=(12,5), dpi=200)
     c_map = sns.color_palette("mako", as_cmap=True)
     fpr, tpr, _ = roc_curve(TARGET, PREDS)
@@ -238,7 +232,7 @@ def plot_test_metrics(PREDS , TARGET):
 
 
 class PreTraining_Train():
-    def __init__(self, encoder,classifier,device,t_loader , v_loader, plot_metrics = True):
+    def __init__(self, encoder,classifier,device,t_loader , v_loader, OUTPUT_DIR,plot_metrics = True):
         
         self.encoder = encoder
         self.classifier =classifier
@@ -246,9 +240,10 @@ class PreTraining_Train():
         self.t_loader = t_loader
         self.v_loader = v_loader
         self.plot = plot_metrics
+        self.op = OUTPUT_DIR
     
     def train(self):
-        ta , tl , va , vl = fit(self.encoder ,  self.classifier , self.device ,self.t_loader , self.v_loader )
+        ta , tl , va , vl = fit(self.encoder ,  self.classifier , self.device ,self.t_loader , self.v_loader,self.op )
         if(self.plot):
             plot_train_metrics(ta , tl , va , vl)
 
