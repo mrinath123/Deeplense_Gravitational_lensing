@@ -249,7 +249,7 @@ class PreTraining_Train():
 
 
 class PreTraining_Test():
-    def __init__(self, encoder,classifier,device,test_loader , e_path, c_path, plot_metrics = True):
+    def __init__(self, encoder,classifier,device,test_loader , e_path, c_path):
         
         self.encoder = encoder
         self.classifier =classifier
@@ -257,10 +257,8 @@ class PreTraining_Test():
         self.test_loader  = test_loader
         self.e_path  = e_path
         self.c_path  = c_path
-        self.plot = plot_metrics
-    
+
     def test(self):
         pred, label = inference_func(self.encoder ,  self.classifier,self.test_loader , self.device, self.e_path, self.c_path )
-        if(self.plot):
-            plot_test_metrics(pred, label)
+        plot_test_metrics(pred, label)
 
