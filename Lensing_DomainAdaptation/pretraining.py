@@ -215,7 +215,6 @@ def plot_test_metrics(PREDS , TARGET):
     c_map = sns.color_palette("mako", as_cmap=True)
     fpr, tpr, _ = roc_curve(TARGET, PREDS)
     roc_auc = auc(fpr, tpr)
-    sns.set_theme()
     axs[0].plot([0, 1], [0, 1], 'k--')
     axs[0].plot(fpr, tpr, label='Model (ROC-AUC = {:.3f})'.format(roc_auc))
     axs[0].set_xlabel('False positive rate')
