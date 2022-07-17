@@ -132,7 +132,6 @@ def fit(encoder,classifier,device,t_loader , v_loader, OUTPUT_DIR):
     warmup_epochs = 3
     
     num_train_steps = math.ceil(len(t_loader))
-    num_train_steps = math.ceil(len(t_loader))
     num_warmup_steps= num_train_steps * warmup_epochs
     num_training_steps=int(num_train_steps * epochs)
     scheduler = get_cosine_schedule_with_warmup(optimizer,num_warmup_steps = num_warmup_steps,num_training_steps =num_training_steps)

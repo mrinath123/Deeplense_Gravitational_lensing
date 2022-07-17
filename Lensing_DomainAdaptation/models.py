@@ -41,7 +41,7 @@ class Discriminator(nn.Module):
             nn.PReLU(),
             nn.Linear(latent_size//2, latent_size//2),
             nn.PReLU(),
-            nn.Linear(latent_size/2, 1)
+            nn.Linear(latent_size//2, 1)
         )
     
     def forward(self, x):
