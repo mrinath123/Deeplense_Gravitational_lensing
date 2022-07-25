@@ -16,8 +16,8 @@ def prep_data(class1 , class2):
     d1 = make_labels(class1 , 0)
     d2 = make_labels(class2 , 1)
     t_data = np.concatenate([d1,d2] , axis = 0)
-    X, X_test = train_test_split(t_data, test_size=0.1, random_state=42) # 10% set to test data
-    X_train, X_val = train_test_split(X, test_size=0.25, random_state=42)
+    X, X_test = train_test_split(t_data, test_size=0.1, random_state=42 , stratify = t_data[:,1] ) # 10% set to test data
+    X_train, X_val = train_test_split(X, test_size=0.25, random_state=42 ,stratify = X[:,1])
 
     return X_train, X_val , X_test
 
