@@ -128,7 +128,7 @@ def fit(encoder,classifier,device,t_loader , v_loader, OUTPUT_DIR):
     criterion1=nn.BCEWithLogitsLoss() # Loss function
     optimizer = optim.AdamW(list(encoder.parameters()) + list(classifier.parameters()), lr=1e-4 , weight_decay = 1e-5 ) 
     
-    epochs = 3
+    epochs = 7
     warmup_epochs = 3
     
     num_train_steps = math.ceil(len(t_loader))
