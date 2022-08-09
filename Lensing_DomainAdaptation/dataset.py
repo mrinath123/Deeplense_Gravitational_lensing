@@ -42,3 +42,31 @@ class Len(Dataset):
         image = torch.tensor(image,dtype = torch.float32)      
          
         return image,torch.tensor(target).long()
+
+class Discriminator_dataset(Dataset):
+    def __init__(self , data , augs , source = True):
+        self.data = data
+        self.augs = augs
+        self.source = source
+        
+    def __len__(self):
+        return(len(self.data))
+    
+    def __getitem__(self , idx):
+        path = self.data[idx][0] 
+
+        image = np.load(path)      
+        image = (image - np.min(image))/(np.max(image) - np.min(image)) #make the values raof image range from 0 to1
+        image = np.expand_dims(image , axis = 2)
+        
+        transformed = self.augs(image=image)       
+        image = transformed['image']
+        image = torch.tensor(image,dtype = torch.float32)
+        
+        target = 0.
+        if (self.source == False):
+            target = 1.
+            
+         
+        return image,torch.tensor(target).long()
+
