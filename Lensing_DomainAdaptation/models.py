@@ -7,6 +7,15 @@ pretrained_model1 = 'tf_efficientnet_b2_ns'
 pretrained_model2 = 'resnet34d'
 pretrained_model3 = 'densenet121'
 
+p = []
+p.append(pretrained_model1) 
+p.append(pretrained_model2) 
+p.append(pretrained_model3) 
+
+def available_models():
+    for _ , pp in enumerate(p):
+        print(f'Model Name : {pp}') 
+
 latent_size = 256
 
 class Encoder(nn.Module):
