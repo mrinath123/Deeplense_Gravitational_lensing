@@ -46,7 +46,7 @@ def train_one_epoch(s_loader,t_loader , s_encoder , t_encoder , discriminator , 
     discriminator.train()
     s_encoder.eval()
 
-    loop = tqdm(zip(s_loader , t_loader),total = len(t_loader))
+    loop = tqdm(zip(s_loader , t_loader),total = len(s_loader))
     
     for (s_image,s_labels), (t_image,t_labels) in loop:
         
@@ -135,7 +135,7 @@ def val_one_epoch(loader,target_encoder,classifier,criterion,device):
 
     return losses.avg,scores1.avg,scores2.avg  
 
-def fit(s_loader,t_loader ,tv_loader, s_encoder , t_encoder , discriminator,classifier,OUTPUT_DIR,device):
+def fit(s_loader,t_loader ,tv_loader, s_encoder , t_encoder , discriminator,classifier, hpms , OUTPUT_DIR,device):
     
     D_LOSS = []
     T_LOSS = []
@@ -143,11 +143,11 @@ def fit(s_loader,t_loader ,tv_loader, s_encoder , t_encoder , discriminator,clas
     V_AUC = []
    
     criterion=nn.BCEWithLogitsLoss() # Loss function
-    dis_optimizer = optim.AdamW(discriminator.parameters(), lr=1e-4 , weight_decay = 1e-5 ) 
-    tar_optimizer = optim.AdamW(t_encoder.parameters(), lr=1e-6 , weight_decay = 1e-5 ) 
+    dis_optimizer = optim.AdamW(discriminator.parameters(), lr=hpms.discriminator_learning_rate , weight_decay = hpms.discriminator_weight_decay ) 
+    tar_optimizer = optim.AdamW(t_encoder.parameters(), lr=hpms.target_learning_rate , weight_decay = hpms.targetweight_decay ) 
     
-    epochs = 5
-    warmup_epochs = 2
+    epochs = hpms.adversarial_epochs
+    warmup_epochs = hpms.adversarial_warmup_epochs
     
     num_train_steps = math.ceil(len(t_loader))
     num_warmup_steps= num_train_steps * warmup_epochs
@@ -237,7 +237,7 @@ def plot_train_metrics(D_LOSS,T_LOSS , V_LOSS , V_AUC):
     axs[0].plot(np.arange(0, len(D_LOSS)), T_LOSS, color='g', label='Target_loss')
     axs[0].set_xlabel("Epochs")
     axs[0].set_ylabel("Loss")
-    axs[0].set_title("Loss Curve")
+    axs[0].set_title("Loss Curve (Training)")
     axs[0].legend()
 
     axs[1].plot(np.arange(0, len(D_LOSS)), V_LOSS, color='b', label='Val_Loss')
