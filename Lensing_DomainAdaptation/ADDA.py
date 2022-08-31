@@ -256,7 +256,7 @@ def plot_train_metrics(D_LOSS,T_LOSS , V_LOSS , V_AUC):
 
 
 class ADDA_Train():
-    def __init__(self, s_loader,t_loader ,tv_loader, s_encoder , t_encoder , discriminator,classifier,OUTPUT_DIR,device):
+    def __init__(self, s_loader,t_loader ,tv_loader, s_encoder , t_encoder , discriminator,classifier,hpms,OUTPUT_DIR,device):
         
         self.s_encoder = s_encoder
         self.t_encoder = t_encoder
@@ -266,6 +266,7 @@ class ADDA_Train():
         self.s_loader = s_loader
         self.tv_loader = tv_loader
         self.device = device
+        self.hpms = hpms
         self.op = OUTPUT_DIR
 
         for param in self.s_encoder.parameters():
@@ -276,7 +277,8 @@ class ADDA_Train():
 
     
     def train(self):
-        D_LOSS,T_LOSS , V_LOSS , V_AUC = fit(self.s_loader,self.t_loader ,self.tv_loader, self.s_encoder , self.t_encoder , self.discriminator,self.classifier,self.op,self.device)
+        D_LOSS,T_LOSS , V_LOSS , V_AUC = fit(self.s_loader,self.t_loader ,self.tv_loader, self.s_encoder ,
+                                             self.t_encoder , self.discriminator,self.classifier,self.hpms,self.op,self.device)
         plot_train_metrics(D_LOSS,T_LOSS , V_LOSS , V_AUC )
 
 

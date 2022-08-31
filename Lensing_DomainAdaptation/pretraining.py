@@ -230,7 +230,7 @@ def plot_test_metrics(PREDS , TARGET):
 
 
 class PreTraining_Train():
-    def __init__(self, encoder,classifier,device,t_loader , v_loader, OUTPUT_DIR,plot_metrics = True):
+    def __init__(self, encoder,classifier,device,t_loader , v_loader, hpms , OUTPUT_DIR,plot_metrics = True):
         
         self.encoder = encoder
         self.classifier =classifier
@@ -238,10 +238,11 @@ class PreTraining_Train():
         self.t_loader = t_loader
         self.v_loader = v_loader
         self.plot = plot_metrics
+        self.hpms = hpms
         self.op = OUTPUT_DIR
     
     def train(self):
-        ta , tl , va , vl = fit(self.encoder ,  self.classifier , self.device ,self.t_loader , self.v_loader,self.op )
+        ta , tl , va , vl = fit(self.encoder ,  self.classifier , self.device ,self.t_loader , self.v_loader,self.hpms,self.op )
         if(self.plot):
             plot_train_metrics(ta , tl , va , vl)
 
