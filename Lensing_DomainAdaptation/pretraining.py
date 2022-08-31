@@ -1,3 +1,4 @@
+### This script is used for the first part of ADDA, that is pretraining the model with source data
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -13,14 +14,13 @@ import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import Dataset,DataLoader
 from torch import optim
 from transformers import get_cosine_schedule_with_warmup
 import warnings
 warnings.filterwarnings('ignore')
 
 class AverageMeter(object):
-    #Computes and stores the average and current value
+    '''Computes and stores the average and current value'''
     def __init__(self):
         self.reset()
     def reset(self):
@@ -46,7 +46,7 @@ def train_one_epoch(train_loader,encoder,classifier,device,optimizer,criterion,e
     global_step = 0
     loop = tqdm(enumerate(train_loader),total = len(train_loader))
     
-    for step,(image,labels) in loop:
+    for _,(image,labels) in loop:
         image = image.to(device)
         labels = labels.unsqueeze(1)
         labels= labels.to(device)
@@ -93,7 +93,7 @@ def val_one_epoch(loader,encoder,classifier,device,criterion):
     global_step = 0
     loop = tqdm(enumerate(loader),total = len(loader))
     
-    for step,(image,labels) in loop:
+    for _,(image,labels) in loop:
         image = image.to(device)
         labels = labels.unsqueeze(1)
         labels = labels.to(device)
@@ -118,18 +118,19 @@ def val_one_epoch(loader,encoder,classifier,device,criterion):
 
     return losses.avg,scores1.avg,scores2.avg
 
-def fit(encoder,classifier,device,t_loader , v_loader, OUTPUT_DIR):
-    
+def fit(encoder,classifier,device,t_loader , v_loader, hpms , OUTPUT_DIR):
+    ''' Learning loop including training and validation of the models'''
+
     T_AUC = []
     T_LOSS = []
     V_AUC = []
     V_LOSS = []
    
-    criterion1=nn.BCEWithLogitsLoss() # Loss function
-    optimizer = optim.AdamW(list(encoder.parameters()) + list(classifier.parameters()), lr=1e-4 , weight_decay = 1e-5 ) 
+    criterion1= nn.BCEWithLogitsLoss() # Loss function
+    optimizer = optim.AdamW(list(encoder.parameters()) + list(classifier.parameters()), lr= hpms.pretraining_learning_rate , weight_decay = hpms.pretraining_weight_decay ) 
     
-    epochs = 7
-    warmup_epochs = 3
+    epochs = hpms.pretraining_epochs
+    warmup_epochs = hpms.pretraining_warmup_epochs
     
     num_train_steps = math.ceil(len(t_loader))
     num_warmup_steps= num_train_steps * warmup_epochs
@@ -161,9 +162,7 @@ def fit(encoder,classifier,device,t_loader , v_loader, OUTPUT_DIR):
     return T_AUC, T_LOSS , V_AUC, V_LOSS
 
 def plot_train_metrics(ta , tl , va , vl):
-    sns.set_theme()
     fig, axs = plt.subplots(1, 2, figsize=(12,5), dpi=200)
-    
     axs[0].plot(np.arange(0, len(ta)), tl, color='r', label='Train_loss')
     axs[0].plot(np.arange(0, len(ta)), vl, color='g', label='Val_loss')
     axs[0].set_xlabel("Epochs")
@@ -204,6 +203,7 @@ def inference_func(encoder ,  classifier,test_loader , device, e_path, c_path ):
     return PREDS , TARGET
 
 def binarize(x):
+    ''' function to binarize( 1/0 ) the final outputs'''
     if(x >= 0.5):
         return 1.
     else:
