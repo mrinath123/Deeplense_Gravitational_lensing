@@ -3,13 +3,23 @@ import torch.nn as nn
 import torch.nn.functional as F
 import timm
 
-pretrained_model = 'tf_efficientnet_b2_ns'
+pretrained_model1 = 'tf_efficientnet_b2_ns'
+pretrained_model2 = 'resnet34d'
+pretrained_model3 = 'densenet121'
+
 latent_size = 256
 
 class Encoder(nn.Module):
-    def __init__(self, latent_size =  latent_size , pretrained = True , num_channels = 1408 , dropout_rate = 0.5):
+    def __init__(self, model_name = pretrained_model1,latent_size =  latent_size , pretrained = True , dropout_rate = 0.5):
         super().__init__()
-        self.backbone = timm.create_model(pretrained_model, pretrained=pretrained, num_classes=0,global_pool='',in_chans=1)
+        self.m_name = model_name
+        if( self.m_name == pretrained_model1):
+            num_channels = 1408 
+        elif (self.m_name == pretrained_model2):
+            num_channels = 512
+        else :
+            num_channels = 1024
+        self.backbone = timm.create_model( self.m_name, pretrained=pretrained, num_classes=0,global_pool='',in_chans=1)
         self.pool = nn.AdaptiveAvgPool2d(1)
         self.prelu = nn.PReLU()
         self.lin = nn.Linear( num_channels, latent_size)
