@@ -13,7 +13,7 @@ def set_seed(seed):
         torch.cuda.manual_seed_all(seed)
         torch.backends.cudnn.deterministic = True
 
-class HPAMS:
+class Pretraining_HPAMS:
     def __init__(self):
         #Pretraining_model_hyperparameters
         self.pretraining_epochs = 7
@@ -21,6 +21,9 @@ class HPAMS:
         self.pretraining_learning_rate = 1e-4
         self.pretraining_weight_decay = 1e-5
 
+
+class ADDA_HPAMS:
+    def __init__(self):
         # ADDA_MODEL_HYperparameters
         self.adversarial_epochs = 5
         self.adversarial_warmup_epochs = 2

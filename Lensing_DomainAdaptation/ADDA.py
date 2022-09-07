@@ -46,7 +46,7 @@ def train_one_epoch(s_loader,t_loader , s_encoder , t_encoder , discriminator , 
     discriminator.train()
     s_encoder.eval()
 
-    loop = tqdm(zip(s_loader , t_loader),total = len(s_loader))
+    loop = tqdm(zip(s_loader , t_loader),total = min(len(s_loader) , len(t_loader)) )
     
     for (s_image,s_labels), (t_image,t_labels) in loop:
         
