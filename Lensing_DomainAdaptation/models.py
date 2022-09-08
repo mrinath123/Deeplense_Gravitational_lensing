@@ -51,7 +51,7 @@ class ECNN(nn.Module):
         taken from https://arxiv.org/abs/2112.12121
         """
 
-        super(Encoder, self).__init__()
+        super(ECNN, self).__init__()
 
         if sym_group == 'Dihedral':
             self.r2_act = gspaces.FlipRot2dOnR2(N=N)
