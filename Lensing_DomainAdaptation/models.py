@@ -59,12 +59,12 @@ class ECNN(nn.Module):
         elif sym_group == 'Circular':
             self.r2_act = gspaces.Rot2dOnR2(N=N)
 
-        in_type = e2nn.FieldType(self.r2_act, [self.r2_act.trivial_repr])
+        in_type = e2nn.FieldType(self.r2_act, 1*[self.r2_act.trivial_repr])
         self.input_type = in_type
 
         out_type = e2nn.FieldType(self.r2_act, 24*[self.r2_act.regular_repr])
         self.block1 = e2nn.SequentialModule(
-            e2nn.MaskModule(in_type, 150, margin=1),
+            e2nn.MaskModule(in_type, 64, margin=1),
             e2nn.R2Conv(in_type, out_type, kernel_size=7, padding=1, bias=False),
             e2nn.InnerBatchNorm(out_type),
             e2nn.ReLU(out_type, inplace=True)
@@ -121,7 +121,7 @@ class ECNN(nn.Module):
         c = self.gpool.out_type.size
 
         self.fully_net = nn.Sequential(
-            nn.Linear(61504, features_size),
+            nn.Linear(5184, features_size),
             nn.BatchNorm1d(features_size),
             nn.ELU(inplace=True),
             nn.Linear(features_size, features_size),
@@ -141,7 +141,7 @@ class ECNN(nn.Module):
         x = self.gpool(x)
         x = x.tensor
         x = self.fully_net(x.reshape(x.shape[0], -1))
-        return 
+        return x
 
 class Classifier(nn.Module):
     def __init__(self,latent_size =  latent_size):
