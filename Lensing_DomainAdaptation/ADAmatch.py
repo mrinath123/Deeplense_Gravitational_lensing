@@ -202,7 +202,7 @@ def fit(s_loader,t_loader ,tv_loader, encoder  ,classifier,hpms, OUTPUT_DIR,devi
 
         TRAIN_LOSS.append(loss3)
 
-        val_loss,val_auc,vacc = val_one_epoch(tv_loader,encoder,classifier)
+        val_loss,val_auc,vacc = val_one_epoch(tv_loader,encoder,classifier,device)
 
         print(f'avarage val_loss { val_loss }')
         print(f'avarage val_auc {val_auc}')
