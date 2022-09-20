@@ -142,7 +142,7 @@ def fit(s_loader,t_loader ,tv_loader, s_encoder , t_encoder , discriminator,clas
     V_LOSS = []
     V_AUC = []
    
-    criterion=nn.BCEWithLogitsLoss() # Loss function
+    criterion = nn.BCEWithLogitsLoss() # Loss function
     dis_optimizer = optim.AdamW(discriminator.parameters(), lr=hpms.discriminator_learning_rate , weight_decay = hpms.discriminator_weight_decay ) 
     tar_optimizer = optim.AdamW(t_encoder.parameters(), lr=hpms.target_learning_rate , weight_decay = hpms.targetweight_decay ) 
     
