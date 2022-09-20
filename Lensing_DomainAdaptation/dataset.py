@@ -70,3 +70,58 @@ class Discriminator_dataset(Dataset):
          
         return image,torch.tensor(target).long()
 
+class SE_data(Dataset):
+    def __init__(self , data , augs ):
+        self.data = data
+        self.augs = augs
+        
+    def __len__(self):
+        return(len(self.data))
+    
+    def __getitem__(self , idx):
+        path = self.data[idx][0] 
+
+        image = np.load(path)      
+        image = (image - np.min(image))/(np.max(image) - np.min(image)) #make the values raof image range from 0 to1
+        image = np.expand_dims(image , axis = 2)
+        image1 = image
+        image2 = image
+        
+        transformed1 = self.augs(image=image1)       
+        image1 = transformed1['image']
+        image1 = torch.tensor(image1,dtype = torch.float32)
+        
+        transformed2 = self.augs(image=image2)       
+        image2 = transformed2['image']
+        image2 = torch.tensor(image2,dtype = torch.float32)
+
+        return image1,image2
+
+class AMatch_data(Dataset):
+    def __init__(self , data , augs1 , augs2 ):
+        self.data = data
+        self.augs1 = augs1 #weak_aug
+        self.augs2 = augs2 #strong_aug
+        
+    def __len__(self):
+        return(len(self.data))
+    
+    def __getitem__(self , idx):
+        path = self.data[idx][0]
+        target = float(self.data[idx][1])
+
+        image = np.load(path)      
+        image = (image - np.min(image))/(np.max(image) - np.min(image)) #make the values raof image range from 0 to1
+        image = np.expand_dims(image , axis = 2)
+        image1 = image
+        image2 = image
+        
+        transformed1 = self.augs1(image=image1)       
+        image1 = transformed1['image']
+        weak_image = torch.tensor(image1,dtype = torch.float32)
+        
+        transformed2 = self.augs2(image=image2)       
+        image2 = transformed2['image']
+        strong_image = torch.tensor(image2,dtype = torch.float32)
+        
+        return weak_image,strong_image,target
