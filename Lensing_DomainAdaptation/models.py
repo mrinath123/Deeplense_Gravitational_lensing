@@ -14,7 +14,7 @@ p.append(pretrained_model1)
 p.append(pretrained_model2) 
 p.append(pretrained_model3) 
 
-def available_models():
+def available_backbone_models():
     for _ , pp in enumerate(p):
         print(f'Model Name : {pp}') 
 
