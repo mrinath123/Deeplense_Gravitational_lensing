@@ -41,3 +41,13 @@ class SE_HPAMS:
         self.source_weight_decay = 1e-5
         self.target_learning_rate = 1e-4
         self.target_weight_decay = 1e-5
+
+class Adamatch_HPAMS:
+    def __init__(self):
+        # Adamatch_MODEL_HYperparameters
+        self.tau = 0.9
+        self.epochs = 5
+        self.warmup_epochs = 1
+        self.learning_rate = 3e-4
+        self.weight_decay = 1e-5
+
