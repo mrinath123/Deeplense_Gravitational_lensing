@@ -182,7 +182,7 @@ def fit(s_loader,t_loader ,tv_loader, s_encoder , t_encoder , discriminator,clas
 
     return D_LOSS,T_LOSS , V_LOSS , V_AUC
 
-def inference_func(t_encoder ,  classifier,test_loader , device, e_path, c_path ):
+def test_func(t_encoder ,  classifier,test_loader , device, e_path, c_path ):
 
     t_encoder.load_state_dict(torch.load(e_path))
     classifier.load_state_dict(torch.load(c_path))
@@ -293,5 +293,5 @@ class ADDA_Test():
         self.c_path  = c_path
 
     def test(self):
-        pred, label = inference_func(self.encoder ,  self.classifier,self.test_loader , self.device, self.t_path, self.c_path )
+        pred, label = test_func(self.encoder ,  self.classifier,self.test_loader , self.device, self.t_path, self.c_path )
         plot_test_metrics(pred, label)
