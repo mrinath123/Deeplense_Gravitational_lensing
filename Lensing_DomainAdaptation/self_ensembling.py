@@ -246,13 +246,26 @@ def plot_test_metrics(PREDS , TARGET):
 
     plt.show()
 
-def plot_train_metrics(T_LOSS):    
+def plot_train_metrics(T_LOSS , V_LOSS , V_AUC):
+    fig, axs = plt.subplots(3, 1, figsize=(10,15), dpi=200)
 
-    plt.plot(np.arange(0, len(T_LOSS)), T_LOSS, color='r', label='Training_loss')
-    plt.set_xlabel("Epochs")
-    plt.set_ylabel("Loss")
-    plt.set_title("Loss Curve (Training)")
-    plt.legend()
+    axs[0].plot(np.arange(0, len(T_LOSS)), T_LOSS, color='g', label='Training_loss')
+    axs[0].set_xlabel("Epochs")
+    axs[0].set_ylabel("Loss")
+    axs[0].set_title("Loss Curve (Training)")
+    axs[0].legend()
+
+    axs[1].plot(np.arange(0, len(T_LOSS)), V_LOSS, color='b', label='Val_Loss')
+    axs[1].set_xlabel("Epochs")
+    axs[1].set_ylabel("Loss")
+    axs[1].set_title("Loss Curve")
+    axs[1].legend()
+
+    axs[2].plot(np.arange(0, len(T_LOSS)), V_AUC, color='y', label='Val_AUC')
+    axs[2].set_xlabel("Epochs")
+    axs[2].set_ylabel("AUC score")
+    axs[2].set_title("AUC score Curve")
+    axs[2].legend()
 
     plt.show()
 
@@ -269,7 +282,6 @@ class SE_Train():
         self.device = device
         self.hpms = hpms
         self.op = OUTPUT_DIR
-
     
     def train(self):
         T_LOSS , V_LOSS , V_AUC = fit(self.s_loader,self.t_loader ,self.tv_loader, self.s_encoder ,
