@@ -84,7 +84,7 @@ def train_one_epoch(s_loader,t_loader , s_encoder , t_encoder ,t_classifier,s_cl
 
         
         optimizer1.zero_grad()
-        #optimizer2.zero_grad()
+        optimizer2.zero_grad()
         
         #Step1
         output1 = s_classifier(s_encoder(s_image))
@@ -153,17 +153,17 @@ def val_one_epoch(loader,t_encoder,t_classifier , device):
 
     return losses.avg,scores1.avg,scores2.avg
 
-def fit(s_loader,t_loader ,tv_loader, s_encoder , t_encoder , t_classifier,s_classifier, OUTPUT_DIR,device):
+def fit(s_loader,t_loader ,tv_loader, s_encoder , t_encoder , t_classifier,s_classifier,hpms, OUTPUT_DIR,device):
 
     TRAIN_LOSS = []
     V_LOSS = []
     V_AUC = []
    
-    optimizer1 = optim.AdamW(list(s_encoder.parameters()) + list(s_classifier.parameters()), lr=1e-4 , weight_decay =1e-5 ) 
-    optimizer2 = optim.AdamW(list(t_encoder.parameters()) + list(t_classifier.parameters()), lr=1e-4 , weight_decay =1e-5 ) 
+    optimizer1 = optim.AdamW(list(s_encoder.parameters()) + list(s_classifier.parameters()), lr= hpms.source_learning_rate , weight_decay = hpms.source_weight_decay ) 
+    optimizer2 = optim.AdamW(list(t_encoder.parameters()) + list(t_classifier.parameters()), lr= hpms.target_learning_rate, weight_decay = hpms.target_weight_decay ) 
     
-    epochs = 6
-    warmup_epochs = 3
+    epochs = hpms.epochs
+    warmup_epochs = hpms.warmup_epochs
     
     num_train_steps = math.ceil(len(t_loader))
     num_warmup_steps= num_train_steps * warmup_epochs
@@ -256,3 +256,36 @@ def plot_train_metrics(T_LOSS):
 
     plt.show()
 
+class SE_Train():
+    def __init__(self, s_loader,t_loader ,tv_loader, s_encoder , t_encoder , t_classifier,s_classifier, hpms,OUTPUT_DIR,device):
+        
+        self.s_encoder = s_encoder
+        self.t_encoder = t_encoder
+        self.t_classifier =t_classifier
+        self.s_classifier =s_classifier
+        self.t_loader = t_loader
+        self.s_loader = s_loader
+        self.tv_loader = tv_loader
+        self.device = device
+        self.hpms = hpms
+        self.op = OUTPUT_DIR
+
+    
+    def train(self):
+        T_LOSS , V_LOSS , V_AUC = fit(self.s_loader,self.t_loader ,self.tv_loader, self.s_encoder ,
+                                             self.t_encoder ,self.t_classifier,self.s_classifier,self.hpms,self.op,self.device)
+        plot_train_metrics(T_LOSS , V_LOSS , V_AUC )
+
+class SE_Test():
+    def __init__(self, t_encoder,classifier,device,test_loader , t_path, c_path):
+        
+        self.encoder = t_encoder
+        self.classifier =classifier
+        self.device = device
+        self.test_loader  = test_loader
+        self.t_path  = t_path
+        self.c_path  = c_path
+
+    def test(self):
+        pred, label = inference_func(self.encoder ,  self.classifier,self.test_loader , self.device, self.t_path, self.c_path )
+        plot_test_metrics(pred, label)
