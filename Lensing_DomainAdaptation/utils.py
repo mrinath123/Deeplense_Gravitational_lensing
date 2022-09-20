@@ -31,3 +31,13 @@ class ADDA_HPAMS:
         self.discriminator_weight_decay = 1e-5
         self.target_learning_rate = 1e-6
         self.targetweight_decay = 1e-5
+
+class SE_HPAMS:
+    def __init__(self):
+        # SE_MODEL_HYperparameters
+        self.epochs = 5
+        self.warmup_epochs = 2
+        self.source_learning_rate = 1e-4
+        self.source_weight_decay = 1e-5
+        self.target_learning_rate = 1e-4
+        self.target_weight_decay = 1e-5
