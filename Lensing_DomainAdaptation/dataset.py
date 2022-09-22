@@ -22,6 +22,28 @@ def prep_data(class1 , class2):
     return X_train, X_val , X_test
 
 class Len(Dataset):
+    '''
+    Dataset class
+
+    Arguments:
+    _________
+
+    data: The image data containing the 
+        path and the label
+    
+    augs: The augmentation you will 
+        provide
+
+    Returns:
+    _______
+
+    image: a three dimensional image 
+        as a torch tensor 
+
+    target: The target (0/1) as a 
+        torch tensor depending on lensed/non-lensed
+
+    '''
     def __init__(self , data , augs):
         self.data = data
         self.augs = augs
@@ -44,6 +66,31 @@ class Len(Dataset):
         return image,torch.tensor(target).long()
 
 class Discriminator_dataset(Dataset):
+    '''
+        Dataset class usind in ADDA
+
+        Arguments:
+        _________
+
+        data: The image data containing the 
+            path and the label
+
+        augs: The augmentation you will 
+            provide
+        
+        source: if the image belong to source 
+            or target dataset
+
+        Returns:
+        _______
+
+        image: a three dimensional image 
+            as a torch tensor 
+
+        target: The target (0/1) as a torch 
+            tensor depending on belonging from source/target dataset
+
+    '''
     def __init__(self , data , augs , source = True):
         self.data = data
         self.augs = augs
@@ -71,6 +118,29 @@ class Discriminator_dataset(Dataset):
         return image,torch.tensor(target).long()
 
 class SE_data(Dataset):
+    '''
+    Dataset class used in self-ensembling
+
+    Arguments:
+    _________
+
+    data: The image data containing the 
+        path and the label
+    
+    augs: The augmentation you will 
+        provide
+
+    Returns:
+    _______
+
+    (same image is outputted with differnt augmentations)
+    image1: a three dimensional image 
+        as a torch tensor 
+
+    image2: a three dimensional image 
+        as a torch tensor
+            
+    '''
     def __init__(self , data , augs ):
         self.data = data
         self.augs = augs
@@ -98,6 +168,33 @@ class SE_data(Dataset):
         return image1,image2
 
 class AMatch_data(Dataset):
+    '''
+    Dataset class used in AdaMatch
+
+    Arguments:
+    _________
+
+    data: The image data containing the 
+        path and the label
+    
+    augs1: weak augmentations
+
+    augs2: strong augmentations 
+
+    Returns:
+    _______
+
+    (same image is outputted with weak/strong augmentations)
+    image1: a three dimensional image 
+        as a torch tensor 
+
+    image2: a three dimensional image 
+        as a torch tensor
+
+    target: The target (0/1) as a 
+        torch tensor depending on lensed/non-lensed
+            
+    '''
     def __init__(self , data , augs1 , augs2 ):
         self.data = data
         self.augs1 = augs1 #weak_aug

@@ -1,10 +1,11 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import timm
+import timm # reqd for pretraining images
 from e2cnn import gspaces
 import e2cnn.nn as e2nn
 
+# pretrained models that can be used as backbone for differnt DA techniques
 pretrained_model1 = 'tf_efficientnet_b2_ns'
 pretrained_model2 = 'resnet34d'
 pretrained_model3 = 'densenet121'
@@ -18,6 +19,7 @@ def available_backbone_models():
     for _ , pp in enumerate(p):
         print(f'Model Name : {pp}') 
 
+# defines the size of the vector outputted by the encoder
 latent_size = 256
 
 class Encoder(nn.Module):
@@ -25,21 +27,20 @@ class Encoder(nn.Module):
         super().__init__()
         self.m_name = model_name
         if( self.m_name == pretrained_model1):
-            num_channels = 1408 
+            num_channels = 1408 #for effnet
         elif (self.m_name == pretrained_model2):
-            num_channels = 512
+            num_channels = 512 #for resnet
         else :
-            num_channels = 1024
+            num_channels = 1024 #for densenet
         self.backbone = timm.create_model( self.m_name, pretrained=pretrained, num_classes=0,global_pool='',in_chans=1)
         self.pool = nn.AdaptiveAvgPool2d(1)
-        self.prelu = nn.PReLU()
+        self.prelu = nn.PReLU() 
         self.lin = nn.Linear( num_channels, latent_size)
         self.do = nn.Dropout(p= dropout_rate)
         
     def forward(self,image):
         image = self.backbone(image)     
         image = self.pool(image)
-        
         image = image.view(image.shape[0], -1)    
         image = self.do(image)
         image = self.prelu(self.lin(image))
@@ -152,6 +153,7 @@ class Classifier(nn.Module):
         image = self.lin(image)
         return image
 
+# required for ADDA
 class Discriminator(nn.Module):
     def __init__(self,latent_size = latent_size):
         super().__init__()
