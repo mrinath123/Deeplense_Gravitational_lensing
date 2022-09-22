@@ -8,6 +8,8 @@ In this project we tried to apply differnt Machine learning algorithms to detect
 
 ## Results
 
+### Table showing AUCROC score for each technique(row) and the pretrained model used (column)
+
 |                | Efficientnet_b2  | Resnet34  |  Densenet_121 |  ECNN  |
 | -------------  | :---------------:  | :--------:  |  :------------: |  :-----: |
 | ADDA           |        0.835     |   0.797   |     0.798     | `0.879`|
