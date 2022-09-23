@@ -5,6 +5,14 @@ Detecting strong lensing from images of space have multiple scientific applicati
 studying properties of galaxies at very high distances.It can also be used further in the DeepLense pipeline.
 In this project we tried to apply differnt Machine learning algorithms to detect strong lensing.
 
+## Files
+
+|Files                   | Description                         |
+|------------------------|-------------------------------------|
+|Lensing_DomainAdaptation| Contains the all the code used      |
+|Notebooks               | Tutoral & data exploration notebooks|
+
+
 
 ## Results
 
