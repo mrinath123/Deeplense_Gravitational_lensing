@@ -6,7 +6,7 @@ studying properties of galaxies at very high distances.It can also be used furth
 In this project we tried to apply differnt Machine learning algorithms to detect strong lensing.
 
 ## Slides
-[SLides for the project](https://docs.google.com/presentation/d/1aa7NTgrcoE91EgPTR_jwwISQExvI0FZgCo83sSTcFxg/edit?usp=sharing)
+[Slides for the project](https://docs.google.com/presentation/d/1aa7NTgrcoE91EgPTR_jwwISQExvI0FZgCo83sSTcFxg/edit?usp=sharing)
 
 ## Data
 We will be using two datasets, simulated and  real.
@@ -16,7 +16,7 @@ The simulated data is made using lenstronomy code.
 Here the ratio of Non_lensed: lensed is almost (2 : 1),with total images being ~ 60k images.
 20 % of the real dataset (94 are lensed 8000 are non lensed) are used for testing.
 
-## Training
+## How to use/Training
 In the tutorial notebooks, its shown how we have trained the models. To know the eaxact hyperparameters, please 
 check the utils.py file. Kaggle GPUs were used to trin and experiment all the models.
 
@@ -32,6 +32,9 @@ check the utils.py file. Kaggle GPUs were used to trin and experiment all the mo
 
 ## Results
 
+### Best AUCROCscore without Domain adaptation : 0.816 
+Using simple classification with Efficientnet_b2 as pretrained model.
+
 ### Table showing AUCROC score for each Domain Adaptation technique(row) and the Encoder model used (column)
 
 |                | Efficientnet_b2  | Resnet34  |  Densenet_121 |  ECNN  |
@@ -39,4 +42,6 @@ check the utils.py file. Kaggle GPUs were used to trin and experiment all the mo
 | ADDA           |        0.835     |   0.797   |     0.798     | `0.879`|
 | Self-Ensembling|        0.604     |   0.445   |     0.537     |  0.449 |
 | AdaMtch        |        0.824     |   0.8     |     0.763     |  0.795 |
+
+
              
