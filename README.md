@@ -5,18 +5,34 @@ Detecting strong lensing from images of space have multiple scientific applicati
 studying properties of galaxies at very high distances.It can also be used further in the DeepLense pipeline.
 In this project we tried to apply differnt Machine learning algorithms to detect strong lensing.
 
+## Slides
+[SLides for the project](https://docs.google.com/presentation/d/1aa7NTgrcoE91EgPTR_jwwISQExvI0FZgCo83sSTcFxg/edit?usp=sharing)
+
+## Data
+We will be using two datasets, simulated and  real.
+The real data is obtained from Hyper Suprime-Cam (HSC) Subaru Strategic Program Public Data Release 2.
+In this the ratio of Non_lensed: lensed is (100 : 1),with total images being ~ 40k images.
+The simulated data is made using lenstronomy code. 
+Here the ratio of Non_lensed: lensed is almost (2 : 1),with total images being ~ 60k images.
+20 % of the real dataset (94 are lensed 8000 are non lensed) are used for testing.
+
+## Training
+In the tutorial notebooks, its shown how we have trained the models. To know the eaxact hyperparameters, please 
+check the utils.py file. Kaggle GPUs were used to trin and experiment all the models.
+
+
 ## Files
 
 |Files                   | Description                         |
 |------------------------|-------------------------------------|
-|Lensing_DomainAdaptation| Contains the all the code used      |
+|Lensing_DomainAdaptation| Contains all the code used      |
 |Notebooks               | Tutoral & data exploration notebooks|
 
 
 
 ## Results
 
-### Table showing AUCROC score for each technique(row) and the Encoder model used (column)
+### Table showing AUCROC score for each Domain Adaptation technique(row) and the Encoder model used (column)
 
 |                | Efficientnet_b2  | Resnet34  |  Densenet_121 |  ECNN  |
 | -------------  | :---------------:  | :--------:  |  :------------: |  :-----: |
