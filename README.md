@@ -43,5 +43,7 @@ Using simple classification with Efficientnet_b2 as pretrained model.
 | Self-Ensembling|        0.604     |   0.445   |     0.537     |  0.449 |
 | AdaMtch        |        0.824     |   0.8     |     0.763     |  0.795 |
 
+###[Model Weigts](https://drive.google.com/file/d/1tWA5uCnyPV4UqL1a-t5qzvyNCtTtqz2z/view?usp=sharing)
+
 
              
