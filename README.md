@@ -48,7 +48,7 @@ Using simple classification with Efficientnet_b2 as pretrained model.
 ![](plots/adda_output.png)
 #### Adamatch
 ![](plots/adamatch_output.png)
-####Self-ensembling
+#### Self-ensembling
 ![](plots/se_output.png)
 
 ### [Model Weights](https://drive.google.com/file/d/1tWA5uCnyPV4UqL1a-t5qzvyNCtTtqz2z/view?usp=sharing)
