@@ -26,7 +26,8 @@ check the utils.py file. Kaggle GPUs were used to trin and experiment all the mo
 |Files                   | Description                         |
 |------------------------|-------------------------------------|
 |Lensing_DomainAdaptation| Contains all the code used      |
-|Notebooks               | Tutoral & data exploration notebooks|
+|notebooks               | Tutoral & data exploration notebooks|
+|plots                   |test metric plots |
 
 
 
@@ -43,9 +44,16 @@ Using simple classification with Efficientnet_b2 as pretrained model.
 | Self-Ensembling|        0.604     |   0.445   |     0.537     |  0.449 |
 | AdaMtch        |        0.824     |   0.8     |     0.763     |  0.795 |
 
+#### ADDA
+![](plots/adda_output.png)
+#### Adamatch
+![](plots/adamatch_output.png)
+####Self-ensembling
+![](plots/se_output.png)
+
 ### [Model Weights](https://drive.google.com/file/d/1tWA5uCnyPV4UqL1a-t5qzvyNCtTtqz2z/view?usp=sharing)
 
-![](plots/se_output.png  "Self-ensembling")
+
 
 
              
