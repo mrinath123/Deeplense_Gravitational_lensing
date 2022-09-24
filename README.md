@@ -45,7 +45,7 @@ Using simple classification with Efficientnet_b2 as pretrained model.
 
 ### [Model Weights](https://drive.google.com/file/d/1tWA5uCnyPV4UqL1a-t5qzvyNCtTtqz2z/view?usp=sharing)
 
-![](plots/se_output.png "Self-ensembling")
+![](plots/se_output.png  "Self-ensembling")
 
 
              
