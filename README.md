@@ -2,8 +2,8 @@
 
 ## Project Overview
 Detecting strong lensing from images of space have multiple scientific applications like studying mass profiles of distant galaxies and clusters,
-studying properties of galaxies at very high distances.It can also be used further in the DeepLense pipeline.
-In this project we tried to apply differnt Machine learning algorithms to detect strong lensing.
+studying properties of galaxies at very large distances. Detected images can also be used further in the DeepLense project pipeline.
+In this project we tried to apply differnt algorithms to detect strong lensing.
 
 ## Slides
 [Slides for the project](https://docs.google.com/presentation/d/1aa7NTgrcoE91EgPTR_jwwISQExvI0FZgCo83sSTcFxg/edit?usp=sharing)
@@ -17,8 +17,8 @@ Here the ratio of Non_lensed: lensed is almost (2 : 1),with total images being ~
 20 % of the real dataset (94 are lensed 8000 are non lensed) are used for testing.
 
 ## How to use/Training
-In the tutorial notebooks, its shown how we have trained the models. To know the eaxact hyperparameters, please 
-check the utils.py file. Kaggle GPUs were used to trin and experiment all the models.
+In the tutorial notebooks, its shown how we have trained the models. To know the exact hyperparameters, please 
+check the utils.py file. Kaggle GPUs were used to train and experiment all the models.
 
 
 ## Files
